@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:DockDemo_001.ViewModels"
+			 xmlns:np="https://np.com/visuals"	
+			 np:DockAttachedProperties.TheDockManager="{DynamicResource TheDockManager}"
+		     np:DockAttachedProperties.DockChildWindowOwner="{Binding RelativeSource={RelativeSource Self}}"
+		     np:DockAttachedProperties.WindowId="TheMainWindow"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DockDemo_001.Views.Body">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<np:DockManager x:Key="TheDockManager"/>
+			<vm:MainWindowViewModel x:Key="TheViewModel"									/>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<Border BorderThickness="2">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="20"/>
+			</Grid.RowDefinitions>
+
+		<np:RootDockGroup DockId="RootGroup" np:DockAttachedProperties.TheDockManager="{StaticResource TheDockManager}">
+			<np:StackDockGroup TheOrientation="Horizontal">
+				<np:StackDockGroup TheOrientation="Vertical" HeaderBackground="AliceBlue" HeaderForeground="Red">
+					<np:DockItem DockId="Trigger" Header="Setup view " CanFloat="True" CanClose="False" IsActive="True">
+						<Border BorderBrush="#2D2D30" BorderThickness="2">
+							<StackPanel>
+								<TextBlock Text="Hi001"/>
+								<DataGrid Name="MyDataGrid" AutoGenerateColumns="False">
+									<DataGrid.Columns>
+										<DataGridTextColumn Header="Forename"/>
+										<DataGridTextColumn Header="Surname"/>
+										<DataGridTextColumn Header="Middle Name"/>
+									</DataGrid.Columns>
+									<DataGrid.ContextMenu>
+										<ContextMenu Name="MarkerPlacement">
+											<MenuItem Name="MarkerMenuItem" Header="Set Marker" Command="{Binding SetMarker, Mode=OneWay}"></MenuItem>
+											<MenuItem Header="GoTo Marker">
+												<MenuItem.Styles>
+													<Style Selector="MenuItem"></Style>
+												</MenuItem.Styles>
+											</MenuItem>
+										</ContextMenu>
+									</DataGrid.ContextMenu>
+								</DataGrid>
+							</StackPanel>
+						</Border>
+					</np:DockItem>
+					<np:DockItem Header="Exerciser View"
+													 DockId="exerciser" CanFloat="True" CanClose="False" IsActive="True">
+						<StackPanel>
+								<TextBlock Text="Hi002"/>
+						</StackPanel>
+					</np:DockItem>
+				</np:StackDockGroup>
+
+				<np:StackDockGroup TheOrientation="Vertical">
+					<np:DockItem Header="Plot View" DockId="plot" CanFloat="True" CanClose="False" AutoDestroy="False">
+						<TextBlock Text="Plot View Here"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"/>
+					</np:DockItem>
+
+					<np:StackDockGroup TheOrientation="Horizontal">
+						<np:DockItem Header="Decoded Result" DockId="result" CanFloat="False" CanClose="False" AutoInvisible="False" AutoDestroy="False">
+						</np:DockItem>
+						<np:DockItem Header="SelectedFrame view" DockId="frame" CanFloat="False" CanClose="False" AutoInvisible="False" AutoDestroy="False">
+						</np:DockItem>
+					</np:StackDockGroup>
+				</np:StackDockGroup>
+			</np:StackDockGroup>
+		</np:RootDockGroup>
+			<Button Content="Save Layout" Grid.Row="1" HorizontalAlignment="Center" Name="SaveLayoutButton"/>
+		</Grid>
+	</Border>
+</UserControl>
